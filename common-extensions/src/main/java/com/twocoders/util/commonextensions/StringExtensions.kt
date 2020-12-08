@@ -1,0 +1,13 @@
+package com.twocoders.util.commonextensions
+
+import java.util.*
+
+const val EMPTY_STRING = ""
+const val DASH = "-"
+const val LONG_DASH = "–"
+const val SPACE = " "
+const val VERTICAL_BAR = "|"
+const val SLASH = "/"
+const val COMMA = ","
+
+fun String.toLowerCase() = toLowerCase(Locale.ROOT)

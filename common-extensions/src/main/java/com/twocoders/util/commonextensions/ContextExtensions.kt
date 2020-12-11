@@ -108,7 +108,7 @@ inline val Context.hardwarePropertiesManager: HardwarePropertiesManager?
     get() = applicationContext.getSystemService(HARDWARE_PROPERTIES_SERVICE) as? HardwarePropertiesManager
 
 fun Context.isNetworkAvailable(): Boolean = (connectivityManager).run {
-    if (isMarshmallow()) {
+    if (isAtLeastMarshmallow()) {
         return this?.getNetworkCapabilities(activeNetwork)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
     } else {
         (@Suppress("DEPRECATION")
@@ -154,10 +154,10 @@ fun Context.getDrawable(@DrawableRes drawableResId: Int, theme: Resources.Theme 
 
 @ColorInt
 fun Context.getColorInt(@ColorRes colorResId: Int, theme: Resources.Theme = getTheme()): Int =
-    if (isMarshmallow()) resources.getColor(colorResId, theme) else ContextCompat.getColor(this, colorResId)
+    if (isAtLeastMarshmallow()) resources.getColor(colorResId, theme) else ContextCompat.getColor(this, colorResId)
 
 fun Context.getColorStateList(@ColorRes colorResId: Int, theme: Resources.Theme = getTheme()): ColorStateList? =
-    if (isMarshmallow()) resources.getColorStateList(colorResId, theme) else ContextCompat.getColorStateList(this, colorResId)
+    if (isAtLeastMarshmallow()) resources.getColorStateList(colorResId, theme) else ContextCompat.getColorStateList(this, colorResId)
 
 @ColorInt
 fun Context.getColorFromAttr(
@@ -233,9 +233,11 @@ fun Context.isNightModeEnabled() = when (resources.configuration.uiMode.and(Conf
     else -> false
 }
 
-fun Context.displayRotation() = display?.rotation ?: Surface.ROTATION_0
+val Context.displayRotation: Int
+    get() = display?.rotation ?: Surface.ROTATION_0
 
-fun Context.layoutInflater(): LayoutInflater = LayoutInflater.from(this)
+val Context.layoutInflater: LayoutInflater
+    get() = LayoutInflater.from(this)
 
 fun Context.checkPermission(permission: String) = ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 

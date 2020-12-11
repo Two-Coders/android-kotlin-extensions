@@ -4,8 +4,6 @@ import android.app.Application
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import androidx.annotation.BoolRes
-import androidx.annotation.IntegerRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 
@@ -49,7 +47,3 @@ fun Application.getMetaDataStringValue(@StringRes id: Int) = getMetaData()?.getS
 fun Application.getMetaDataFloatValue(@StringRes id: Int) = getMetaData()?.getFloat(getString(id))
 
 fun Application.getMetaDataBooleanValue(@StringRes id: Int) = getMetaData()?.getBoolean(getString(id))
-
-fun Application.getInt(@IntegerRes id: Int) = resources.getInteger(id)
-
-fun Application.getBoolean(@BoolRes id: Int) = resources.getBoolean(id)

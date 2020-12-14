@@ -1,1 +1,1 @@
-include ':common-extensions'
+include ':extensions:common'

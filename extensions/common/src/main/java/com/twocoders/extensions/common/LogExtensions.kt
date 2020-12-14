@@ -1,4 +1,4 @@
-package com.twocoders.util.commonextensions
+package com.twocoders.extensions.common
 
 import android.content.Context
 import android.util.Log
@@ -6,6 +6,7 @@ import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 private const val PATTERN_LOG_TO_FILE = "yyyy-MM-dd HH:mm:ss.SSS"
@@ -29,7 +30,7 @@ fun Any.logToFile(context: Context, message: String) {
     }
     try {
         BufferedWriter(FileWriter(logFile, true)).apply {
-            append("${Date(System.currentTimeMillis()).formatDateTime(PATTERN_LOG_TO_FILE)}: $message")
+            append("${SimpleDateFormat(PATTERN_LOG_TO_FILE, Locale.getDefault()).format(Date(System.currentTimeMillis()))}: $message")
             newLine()
             close()
         }

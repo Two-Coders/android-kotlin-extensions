@@ -1,4 +1,4 @@
-package com.twocoders.util.commonextensions
+package com.twocoders.extensions.common
 
 import android.annotation.SuppressLint
 import android.app.*
@@ -131,7 +131,7 @@ fun Context.getAnimationDrawable(@DrawableRes drawableResId: Int): AnimationDraw
     null
 }
 
-fun Context.getBitmapFromDrawable(@DrawableRes drawableResId: Int, @ColorInt tintColor: Int = UNDEFINED): Bitmap {
+fun Context.getBitmapFromDrawable(@DrawableRes drawableResId: Int, @ColorRes tintColor: Int = NO_ID): Bitmap {
     val drawable = getDrawable(drawableResId = drawableResId) ?: throw Resources.NotFoundException("The given resource Id does not exist :/")
     return when (drawable) {
         is BitmapDrawable -> drawable.bitmap
@@ -139,7 +139,7 @@ fun Context.getBitmapFromDrawable(@DrawableRes drawableResId: Int, @ColorInt tin
             Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888).apply {
                 val canvas = Canvas(this)
                 drawable.setBounds(0, 0, canvas.width, canvas.height)
-                if (tintColor != UNDEFINED) drawable.setTint(tintColor)
+                if (tintColor != NO_ID) drawable.setTint(getColorInt(tintColor))
                 drawable.draw(canvas)
             }
         }

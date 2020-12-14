@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-ext.bintrayPublishVersion = libCommonExtensionsVersion
-apply from: '../bintrayConfig.gradle'
+ext.bintrayPublishVersion = libExtensionsCommonVersion
+apply from: '../../bintray-publish-config.gradle'
 
 android {
     compileSdkVersion androidCompileSdkVersion
@@ -10,7 +10,7 @@ android {
     defaultConfig {
         minSdkVersion androidMinSdkVersion
         targetSdkVersion androidTargerSdkVersion
-        versionName libCommonExtensionsVersion
+        versionName libExtensionsCommonVersion
 
         consumerProguardFiles 'consumer-rules.pro'
     }

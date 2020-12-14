@@ -1,4 +1,4 @@
-package com.twocoders.util.commonextensions
+package com.twocoders.extensions.common
 
 import android.location.Location
 

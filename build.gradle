@@ -2,9 +2,8 @@ buildscript {
 
     ext {
         organization = 'twocoders'
-        projectIdentifier = 'extensions'
-        projectWebsite = 'https://github.com/Two-Coders/common-extensions'
-        projectDescription = 'Project containing common Android extensions.'
+        projectWebsite = 'https://github.com/Two-Coders/android-kotlin-extensions'
+        projectDescription = 'Project containing useful Android Kotlin extensions.'
         projectLicences = ['MIT']
 
         androidMinSdkVersion = 21

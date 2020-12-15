@@ -29,10 +29,9 @@ fun Any.logToFile(context: Context, message: String) {
         }
     }
     try {
-        BufferedWriter(FileWriter(logFile, true)).apply {
-            append("${SimpleDateFormat(PATTERN_LOG_TO_FILE, Locale.getDefault()).format(Date(System.currentTimeMillis()))}: $message")
-            newLine()
-            close()
+        BufferedWriter(FileWriter(logFile, true)).use {
+            it.append("${SimpleDateFormat(PATTERN_LOG_TO_FILE, Locale.getDefault()).format(Date(System.currentTimeMillis()))}: $message")
+            it.newLine()
         }
     } catch (e: IOException) {
         logd("An error occurred while appending new line to the log file :/")

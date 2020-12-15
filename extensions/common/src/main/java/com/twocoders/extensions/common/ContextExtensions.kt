@@ -107,14 +107,14 @@ inline val Context.hardwarePropertiesManager: HardwarePropertiesManager?
     @RequiresApi(api = Build.VERSION_CODES.N)
     get() = applicationContext.getSystemService(HARDWARE_PROPERTIES_SERVICE) as? HardwarePropertiesManager
 
-fun Context.isNetworkAvailable(): Boolean = (connectivityManager).run {
-    return if (isAtLeastMarshmallow()) {
-        this?.getNetworkCapabilities(activeNetwork)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
+fun Context.isNetworkAvailable(): Boolean = connectivityManager?.let {
+    if (isAtLeastMarshmallow()) {
+        it.getNetworkCapabilities(it.activeNetwork)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     } else {
         @Suppress("DEPRECATION")
-        this?.activeNetworkInfo?.isConnected ?: false
+        it.activeNetworkInfo?.isConnected
     }
-}
+} ?: false
 
 fun Context.isNetworkUnavailable() = !isNetworkAvailable()
 
@@ -234,12 +234,12 @@ fun Context.isNightModeEnabled() = when (resources.configuration.uiMode.and(Conf
 }
 
 val Context.displayRotation: Int
-    get() = if (isAtLeastR()) {
-        display?.rotation ?: Surface.ROTATION_0
+    get() = (if (isAtLeastR()) {
+        display
     } else {
         @Suppress("DEPRECATION")
-        windowManager?.defaultDisplay?.rotation ?: Surface.ROTATION_0
-    }
+        windowManager?.defaultDisplay
+    })?.rotation ?: Surface.ROTATION_0
 
 val Context.layoutInflater: LayoutInflater
     get() = LayoutInflater.from(this)

@@ -2,6 +2,7 @@ buildscript {
 
     ext {
         organization = 'twocoders'
+        projectIdentifier = 'extensions'
         projectWebsite = 'https://github.com/Two-Coders/common-extensions'
         projectDescription = 'Project containing common Android extensions.'
         projectLicences = ['MIT']

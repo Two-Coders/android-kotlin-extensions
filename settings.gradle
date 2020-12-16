@@ -1,1 +1,2 @@
-include ':extensions:common'
+include ':extensions:common',
+        ':extensions:livedata'

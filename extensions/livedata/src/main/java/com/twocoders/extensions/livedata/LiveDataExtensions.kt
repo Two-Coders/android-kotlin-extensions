@@ -31,8 +31,14 @@ fun <T : Any?> MutableLiveData<T>.notifyObservers() {
 }
 
 fun <K, V> MutableLiveData<Map<K, V>>.put(key: K, newValue: V) {
-    (this.value as MutableMap)[key] = newValue
-    notifyObservers()
+    with(this.value) {
+        if (this is MutableMap) {
+            this[key] = newValue
+            notifyObservers()
+        } else {
+            throw IllegalArgumentException("$this is not an instance of MutableMap!")
+        }
+    }
 }
 
 @MainThread
@@ -124,9 +130,7 @@ fun <X> LiveData<X>.skip(count: Int): LiveData<X> {
         it?.let {
             if (skipped >= count) {
                 result.value = it
-            }
-
-            if (skipped < count) {
+            } else {
                 skipped++
             }
         }

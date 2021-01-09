@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
 }
 
-ext.bintrayPublishVersion = libExtensionsCommonVersion
+ext.bintrayPublishVersion = libExtensionsLifecycleLiveDataVersion
 apply from: '../../bintray-publish-config.gradle'
 
 android {
@@ -12,7 +12,7 @@ android {
     defaultConfig {
         minSdkVersion androidMinSdkVersion
         targetSdkVersion androidTargerSdkVersion
-        versionName libExtensionsCommonVersion
+        versionName libExtensionsLifecycleLiveDataVersion
 
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -21,7 +21,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    api "com.github.hadilq.liveevent:liveevent:$liveEventVersion"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     implementation "androidx.annotation:annotation:$annotationVersion"
-    implementation "androidx.core:core-ktx:$androidXCoreVersion"
 }

@@ -1,2 +1,8 @@
-include ':extensions:common',
-        ':extensions:livedata'
+include ':extensions:activity',
+        ':extensions:common',
+        ':extensions:fragment',
+        ':extensions:lifecycle-livedata',
+        ':extensions:lifecycle-runtime',
+        ':extensions:material',
+        ':extensions:navigation',
+        ':extensions:recyclerview'

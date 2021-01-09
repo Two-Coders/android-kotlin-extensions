@@ -1,9 +1,10 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
-ext.bintrayPublishVersion = libExtensionsCommonVersion
+ext.bintrayPublishVersion = libExtensionsRecyclerViewVersion
 apply from: '../../bintray-publish-config.gradle'
 
 android {
@@ -12,16 +13,22 @@ android {
     defaultConfig {
         minSdkVersion androidMinSdkVersion
         targetSdkVersion androidTargerSdkVersion
-        versionName libExtensionsCommonVersion
+        versionName libExtensionsRecyclerViewVersion
 
         consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildFeatures {
+        dataBinding true
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    api project(':extensions:common')
+    api "androidx.recyclerview:recyclerview:$recyclerViewVersion"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     implementation "androidx.annotation:annotation:$annotationVersion"
-    implementation "androidx.core:core-ktx:$androidXCoreVersion"
 }

@@ -27,14 +27,44 @@ import android.os.*
 import android.os.storage.StorageManager
 import android.provider.Settings
 import android.telephony.TelephonyManager
+import android.text.TextUtils
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.Surface
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
+
+val Context.applicationName: String
+    get() =  if (applicationInfo.labelRes != NO_ID) {
+        getString(applicationInfo.labelRes)
+    } else {
+        applicationInfo.nonLocalizedLabel.toString()
+    }
+
+val Context.layoutInflater: LayoutInflater
+    get() = LayoutInflater.from(this)
+
+val Context.displayRotation: Int
+    get() = (if (isAtLeastR()) {
+        display
+    } else {
+        @Suppress("DEPRECATION")
+        windowManager?.defaultDisplay
+    })?.rotation ?: Surface.ROTATION_0
+
+val Context.isRtl: Boolean
+    get() = this.resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
+
+val Context.isNightModeEnabled: Boolean
+    get() = when (resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)) {
+        Configuration.UI_MODE_NIGHT_YES -> true
+        Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> false
+        else -> false
+    }
 
 inline val Context.audioManager: AudioManager?
     get() = applicationContext.getSystemService(AUDIO_SERVICE) as? AudioManager
@@ -183,66 +213,70 @@ fun Context.getStringFromAttr(
     }
 }
 
-fun Context.startActivity(intentAction: String = Intent.ACTION_VIEW, uri: Uri) {
-    startActivity(Intent(intentAction, uri))
+fun Context.startActivity(activity: Class<out Activity>) = startActivity(Intent(this, activity))
+
+fun Context.startActivity(intentAction: String = Intent.ACTION_VIEW, uri: Uri) = startActivity(Intent(intentAction, uri))
+
+fun Context.startDialActivity(uri: Uri) = startActivity(Intent.ACTION_DIAL, uri)
+
+fun Context.startApplicationSystemSettingsActivity() {
+    startActivity(
+        Intent(
+            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            Uri.parse("package:$packageName")
+        ).apply {
+            addCategory(Intent.CATEGORY_DEFAULT)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        })
+}
+
+fun Context.startLocationSettingsActivity() {
+    startActivity(
+        Intent(
+            Settings.ACTION_LOCATION_SOURCE_SETTINGS
+        ).apply {
+            addCategory(Intent.CATEGORY_DEFAULT)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        })
+}
+
+fun Context.startYouTubeActivity(youTubeVideoId: String) {
+    try {
+        startActivity(uri = Uri.parse("vnd.youtube:$youTubeVideoId"))
+    } catch (ex: ActivityNotFoundException) {
+        startWebBrowserActivity("https://www.youtube.com/watch?v=$youTubeVideoId")
+    }
+}
+
+fun Context.startWebBrowserActivity(url: String): Boolean {
+    if (TextUtils.isEmpty(url)) {
+        return false
+    }
+
+    var parsedUrl = url
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        parsedUrl = "http://$url"
+    }
+
+    return try {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(parsedUrl)))
+        true
+    } catch (e: ActivityNotFoundException) {
+        false
+    }
 }
 
 fun Context.startGooglePlayActivity(appPackageName: String = packageName, flags: Int? = null) {
     try {
         startActivity(
-            Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")).apply {
-                flags?.let { addFlags(it) }
-            })
-    } catch (e: ActivityNotFoundException) {
-        startActivity(
             Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
-            ).apply {
-                flags?.let { addFlags(it) }
-            })
+                Uri.parse("market://details?id=$appPackageName")
+            ).apply { flags?.let { addFlags(it) } })
+    } catch (e: ActivityNotFoundException) {
+        startWebBrowserActivity("https://play.google.com/store/apps/details?id=$appPackageName")
     }
 }
-
-fun Context.startDialActivity(uri: Uri) {
-    startActivity(Intent.ACTION_DIAL, uri)
-}
-
-fun Context.startApplicationDetailsSettingsActivity() {
-    startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-        data = Uri.fromParts("package", packageName, null)
-        addCategory(Intent.CATEGORY_DEFAULT)
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    })
-}
-
-fun Context.startLocationSettingsActivity() {
-    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
-        addCategory(Intent.CATEGORY_DEFAULT)
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    })
-}
-
-fun Context.isRtl(): Boolean {
-    return this.resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
-}
-
-fun Context.isNightModeEnabled() = when (resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)) {
-    Configuration.UI_MODE_NIGHT_YES -> true
-    Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> false
-    else -> false
-}
-
-val Context.displayRotation: Int
-    get() = (if (isAtLeastR()) {
-        display
-    } else {
-        @Suppress("DEPRECATION")
-        windowManager?.defaultDisplay
-    })?.rotation ?: Surface.ROTATION_0
-
-val Context.layoutInflater: LayoutInflater
-    get() = LayoutInflater.from(this)
 
 fun Context.checkPermission(permission: String) = ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 
@@ -267,7 +301,5 @@ fun Context.showKeyboard(view: View) = inputMethodManager?.showSoftInput(view, I
 fun Context.toggleKeyboard() = inputMethodManager?.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
 fun Context.hideKeyboard(view: View) = inputMethodManager?.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
 
-fun Context.applicationName(): String {
-    val stringId: Int = applicationInfo.labelRes
-    return if (stringId == 0) applicationInfo.nonLocalizedLabel.toString() else getString(stringId)
-}
+fun Context.showShortToast(@StringRes text: Int) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+fun Context.showLongToast(@StringRes text: Int) = Toast.makeText(this, text, Toast.LENGTH_LONG).show()

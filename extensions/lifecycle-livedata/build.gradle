@@ -21,6 +21,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    api project(':extensions:common')
     api "com.github.hadilq.liveevent:liveevent:$liveEventVersion"
     api "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 

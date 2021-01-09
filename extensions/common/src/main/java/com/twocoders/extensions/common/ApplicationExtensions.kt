@@ -7,6 +7,9 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 
+val Application.applicationName: String
+    get() = applicationContext.applicationName
+
 fun Application.hasCamera() = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
 fun Application.hasCameraFlash() = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
 fun Application.hasBluetooth() = packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)
@@ -32,14 +35,12 @@ fun Application.checkPermission(permission: String) = applicationContext.checkPe
 
 fun Application.checkPermissions(permissions: Array<String>): Map<String, Boolean> = applicationContext.checkPermissions(permissions)
 
-fun Application.getMetaData(): Bundle? {
-    return try {
-        packageManager
-            .getApplicationInfo(packageName, PackageManager.GET_META_DATA)
-            .metaData
-    } catch (e: PackageManager.NameNotFoundException) {
-        null
-    }
+fun Application.getMetaData(): Bundle? = try {
+    packageManager
+        .getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+        .metaData
+} catch (e: PackageManager.NameNotFoundException) {
+    null
 }
 
 fun Application.getMetaDataStringValue(@StringRes id: Int) = getMetaData()?.getString(getString(id))

@@ -6,7 +6,37 @@ This library contains some useful common Android extensions without additional d
 
 Use the library by adding `implementation 'com.twocoders.extensions:common:1.1.0'` into your build.gradle file.
 
-## LiveData Extensions
-This library contains some useful Android LiveData extensions.
+## Activity Extensions
+This library contains some useful Android Activity extensions.
 
-Use the library by adding `implementation 'com.twocoders.extensions:livedata:1.1.0'` into your build.gradle file.
+Use the library by adding `implementation 'com.twocoders.extensions:activity:1.0.0'` into your build.gradle file.
+
+## Fragment Extensions
+This library contains some useful Android Fragment extensions.
+
+Use the library by adding `implementation 'com.twocoders.extensions:fragment:1.0.0'` into your build.gradle file.
+
+## Navigation Extensions
+This library contains some useful Android Navigation extensions.
+
+Use the library by adding `implementation 'com.twocoders.extensions:navigation:1.0.0'` into your build.gradle file.
+
+## Lifecycle Runtime Extensions
+This library contains some useful Android Lifecycle Runtime extensions.
+
+Use the library by adding `implementation 'com.twocoders.extensions:lifecycle-runtime:1.0.0'` into your build.gradle file.
+
+## Lifecycle LiveData Extensions
+This library contains some useful Android Lifecycle LiveData extensions.
+
+Use the library by adding `implementation 'com.twocoders.extensions:lifecycle-livedata:1.1.0'` into your build.gradle file.
+
+## Material Extensions
+This library contains some useful Android Material extensions.
+
+Use the library by adding `implementation 'com.twocoders.extensions:material:1.0.0'` into your build.gradle file.
+
+## RecyclerView Extensions
+This library contains some useful Android RecyclerView extensions.
+
+Use the library by adding `implementation 'com.twocoders.extensions:recyclerview:1.0.0'` into your build.gradle file.

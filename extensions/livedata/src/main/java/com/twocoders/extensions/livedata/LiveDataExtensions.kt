@@ -14,6 +14,10 @@ fun <T : Any?> LiveData<T>.asLiveEvent(): LiveEvent<T> =
 fun <T : Any?> LiveData<T>.asMutable(): MutableLiveData<T> =
     if (this is MutableLiveData<T>) this else throw IllegalArgumentException("$this is not an instance of MutableLiveData!")
 
+fun <T : Any?> LiveEvent<T>.call() {
+    this.value = null
+}
+
 fun LiveData<String>.isEmpty(): Boolean = value?.isEmpty() ?: true
 
 fun LiveData<String>.isNotEmpty() = !isEmpty()

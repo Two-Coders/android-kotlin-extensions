@@ -21,6 +21,11 @@ This library contains some useful Android Navigation extensions.
 
 Use the library by adding `implementation 'com.twocoders.extensions:navigation:1.0.0'` into your build.gradle file.
 
+## Navigation Material Extensions
+This library contains some useful Android Navigation Material extensions.
+
+Use the library by adding `implementation 'com.twocoders.extensions:navigation-material:1.0.0'` into your build.gradle file.
+
 ## Lifecycle Runtime Extensions
 This library contains some useful Android Lifecycle Runtime extensions.
 

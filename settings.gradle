@@ -5,4 +5,5 @@ include ':extensions:activity',
         ':extensions:lifecycle-runtime',
         ':extensions:material',
         ':extensions:navigation',
+        ':extensions:navigation-material',
         ':extensions:recyclerview'

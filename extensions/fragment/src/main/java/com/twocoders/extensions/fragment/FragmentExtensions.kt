@@ -40,6 +40,12 @@ fun Fragment.registerPermissionLauncher(callback: ActivityResultCallback<Boolean
 fun Fragment.registerMultiplePermissionsLauncher(callback: ActivityResultCallback<Map<String, Boolean>>) =
     requireActivity().registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions(), callback)
 
+fun Fragment.addOnWindowFocusChangeListener(callback: (hasFocus: Boolean) -> Unit) =
+    view?.viewTreeObserver?.addOnWindowFocusChangeListener(callback)
+
+fun Fragment.removeOnWindowFocusChangeListener(callback: (hasFocus: Boolean) -> Unit) =
+    view?.viewTreeObserver?.removeOnWindowFocusChangeListener(callback)
+
 fun Fragment.enterImmersiveMode() = requireActivity().enterImmersiveMode()
 
 fun Fragment.exitImmersiveMode() = requireActivity().exitImmersiveMode()

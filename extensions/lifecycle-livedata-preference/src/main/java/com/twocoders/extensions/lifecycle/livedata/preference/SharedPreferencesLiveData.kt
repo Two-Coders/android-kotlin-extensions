@@ -1,21 +1,20 @@
-package com.twocoders.extensions.lifecycle.livedata
+package com.twocoders.extensions.lifecycle.livedata.preference
 
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
-import com.twocoders.extensions.common.get
-import com.twocoders.extensions.common.set
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.reflect.KClass
 
 @Suppress("MemberVisibilityCanBePrivate")
-open class SharedPreferencesLiveData<T : Any>(
-    private val classType: KClass<T>,
+abstract class SharedPreferencesLiveData<T : Any>(
     protected val prefs: SharedPreferences,
     protected val prefKey: String,
     protected val defValue: T
 ) : MutableLiveData<T>() {
+
+    abstract fun getValueFromPrefs(): T
+    abstract fun setValueToPrefs(newValue: T)
 
     private val preferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
         if (key == this.prefKey) {
@@ -48,11 +47,5 @@ open class SharedPreferencesLiveData<T : Any>(
     override fun onInactive() {
         prefs.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener)
         super.onInactive()
-    }
-
-    protected open fun getValueFromPrefs(): T = prefs[classType, prefKey, defValue]
-
-    protected open fun setValueToPrefs(newValue: T) {
-        prefs[classType, prefKey] = newValue
     }
 }

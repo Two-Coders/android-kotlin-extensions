@@ -16,6 +16,7 @@ buildscript {
         libExtensionsLifecycleLiveDataVersion = '1.1.0'
         libExtensionsLifecycleLiveDataPreferenceVersion = '1.0.0'
         libExtensionsLifecycleRuntimeVersion = '1.0.0'
+        libExtensionsLifecycleViewModelVersion = '1.0.0'
         libExtensionsMaterialVersion = '1.0.0'
         libExtensionsNavigationVersion = '1.0.0'
         libExtensionsNavigationMaterialVersion = '1.0.0'

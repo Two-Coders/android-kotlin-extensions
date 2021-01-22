@@ -20,7 +20,7 @@ fun Any.logd(message: String, tr: Throwable) {
 }
 
 fun Any.logToFile(context: Context, message: String) {
-    val logFile = File(context.externalPrivateDir(), "log.txt")
+    val logFile = File(context.externalPrivateDir, "log.txt")
     if (!logFile.exists()) {
         try {
             logFile.createNewFile()

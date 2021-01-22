@@ -181,7 +181,7 @@ val Context.layoutInflater: LayoutInflater
     get() = LayoutInflater.from(this)
 
 val Context.displayRotation: Int
-    get() = (if (isAtLeastR()) {
+    get() = (if (isAtLeastR) {
         display
     } else {
         @Suppress("DEPRECATION")
@@ -200,13 +200,14 @@ val Context.isNightModeEnabled: Boolean
 
 val Context.isNetworkAvailable: Boolean
     get() = connectivityManager?.let {
-    if (isAtLeastMarshmallow()) {
-        it.getNetworkCapabilities(it.activeNetwork)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-    } else {
-        @Suppress("DEPRECATION")
-        it.activeNetworkInfo?.isConnected
-    }
-} ?: false
+        if (isAtLeastMarshmallow) {
+            it.getNetworkCapabilities(it.activeNetwork)
+                ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        } else {
+            @Suppress("DEPRECATION")
+            it.activeNetworkInfo?.isConnected
+        }
+    } ?: false
 
 val Context.isNetworkUnavailable: Boolean
     get() = !isNetworkAvailable
@@ -290,10 +291,10 @@ fun Context.getDrawable(@DrawableRes drawableResId: Int, theme: Resources.Theme 
 
 @ColorInt
 fun Context.getColorInt(@ColorRes colorResId: Int, theme: Resources.Theme = getTheme()): Int =
-    if (isAtLeastMarshmallow()) resources.getColor(colorResId, theme) else ContextCompat.getColor(this, colorResId)
+    if (isAtLeastMarshmallow) resources.getColor(colorResId, theme) else ContextCompat.getColor(this, colorResId)
 
 fun Context.getColorStateList(@ColorRes colorResId: Int, theme: Resources.Theme = getTheme()): ColorStateList? =
-    if (isAtLeastMarshmallow()) resources.getColorStateList(colorResId, theme) else ContextCompat.getColorStateList(this, colorResId)
+    if (isAtLeastMarshmallow) resources.getColorStateList(colorResId, theme) else ContextCompat.getColorStateList(this, colorResId)
 
 @ColorInt
 fun Context.getColorFromAttr(

@@ -20,7 +20,7 @@ fun ActivityResultLauncher<IntentSenderRequest>.launchIntentSender(intentSender:
 }
 
 fun Activity.enterImmersiveMode() {
-    if (isAtLeastR()) {
+    if (isAtLeastR) {
         window.setDecorFitsSystemWindows(false)
         window.insetsController?.let {
             it.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
@@ -38,7 +38,7 @@ fun Activity.enterImmersiveMode() {
 }
 
 fun Activity.exitImmersiveMode() {
-    if (isAtLeastR()) {
+    if (isAtLeastR) {
         window.setDecorFitsSystemWindows(true)
         window.insetsController?.let {
             it.show(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())

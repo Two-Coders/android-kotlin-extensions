@@ -66,7 +66,7 @@ context.showLongToast(R.string.test)
 
 ```
 
-and much more. Please visit this link for all available common extensions:  
+and much more! Please visit this link for all available common extensions:  
 https://github.com/Two-Coders/android-kotlin-extensions/tree/master/extensions/common/src/main/java/com/twocoders/extensions/common
 
 ## Activity Extensions
@@ -209,15 +209,137 @@ This library contains some useful Android Navigation Material extensions.
 
 Use the library by adding `implementation 'com.twocoders.extensions:navigation-material:1.0.0'` into your build.gradle file.
 
+### Examples
+
+This library actually only extends the **extensions:navigation** with the ArgsBottomSheetDialogFragment:
+```kotlin
+// BottomSheetDialogFragment
+@AndroidEntryPoint
+class MyBottomSheetDialogFragment : ArgsBottomSheetDialogFragment() {
+
+    private val viewModel by viewModels<MyBottomSheetDialogFragmentViewModel>()
+
+    ...
+}
+
+// ViewModel
+class MyBottomSheetDialogFragmentViewModel @ViewModelInject constructor(
+    application: Application,
+    @Assisted savedStateHandle: SavedStateHandle
+) : ArgsAndroidViewModel(application, savedStateHandle) {
+
+    private val args: MyMyBottomSheetDialogFragmentArgs by navArgs()
+
+    ...
+}
+```
+
 ## Lifecycle Runtime Extensions
 This library contains some useful Android Lifecycle Runtime extensions.
 
 Use the library by adding `implementation 'com.twocoders.extensions:lifecycle-runtime:1.0.0'` into your build.gradle file.
 
+### Examples
+
+LifecycleOwner:
+```kotlin
+// Obtaining Activity from LifecycleOwner
+val activity = lifecycleOwner.activity()
+
+// Check if an Fragment or Activity is in finishing state
+val isFinishing: Boolean = lifecycleOwner.isFinishing()
+```
+
 ## Lifecycle LiveData Extensions
 This library contains some useful Android Lifecycle LiveData extensions.
 
 Use the library by adding `implementation 'com.twocoders.extensions:lifecycle-livedata:1.1.0'` into your build.gradle file.
+
+### Examples
+
+This library adds some useful extensions to LiveData and Hadilq LiveEvent:
+```kotlin
+class MyFragmentViewModel @ViewModelInject constructor(
+    application: Application
+) : AndroidViewModel(application) {
+
+    val goToSettingsObservable: LiveData<Any> = LiveEvent()
+    val requestPermissionsObservable: LiveData<Array<String>> = LiveEvent()
+
+    private fun requestStoragePermission() {
+        if (!isStoragePermissionGranted) {
+            val permissions = arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            requestPermissionsObservable.asLiveEvent().value = permissions
+        }
+    }
+
+    fun onSettingsButtonClick() {
+        goToSettingsObservable.asLiveEvent().call()
+    }
+}
+```
+
+MutableLiveData access restriction:
+```kotlin
+class MyFragmentViewModel @ViewModelInject constructor(
+    application: Application
+) : AndroidViewModel(application) {
+
+    val viewAnimatorIndex: LiveData<MainFragmentContentIndex> = MutableLiveData(MainFragmentContentIndex.CONTENT)
+
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
+
+        if (!isStoragePermissionGranted) {
+            viewAnimatorIndex.asMutable().value = MainFragmentContentIndex.NO_PERMISSION
+        } else {
+            switchToContent()
+        }
+    }
+}
+```
+
+Transformations:
+```kotlin
+class MyFragmentViewModel @ViewModelInject constructor(
+    application: Application
+) : AndroidViewModel(application) {
+
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
+
+        val firstLiveData: LiveData<Int> = MutableLiveData(0)
+        val secondLiveData: LiveData<String> = MutableLiveData(EMPTY_STRING)
+
+        firstLiveData
+            .withLatestFrom(secondLiveData) // Rx withLatestFrom transformation
+            .observe(owner) {
+                // it is Pair<Int, String>
+            }
+
+        firstLiveData
+            .zip(secondLiveData) // Rx zip transformation
+            .observe(owner) {
+                // it is Pair<Int, String>
+            }
+
+        firstLiveData
+            .combineLatest(secondLiveData) // Rx combineLatest transformation
+            .filter { it.first >= 5 } // filter example
+            .observe(owner) {
+                // it is Pair<Int, String>
+            }
+
+        ...
+    }
+}
+```
+
+and much more! Please visit this link for all available LiveData extensions:  
+https://github.com/Two-Coders/android-kotlin-extensions/tree/master/extensions/lifecycle-livedata/src/main/java/com/twocoders/extensions/lifecycle/livedata
 
 ## Lifecycle LiveData Preference Extensions
 This library contains some useful Android Lifecycle LiveData Preference extensions.
@@ -256,6 +378,35 @@ class MyViewModel @ViewModelInject constructor(
 This library contains some useful Android Lifecycle ViewModel extensions.
 
 Use the library by adding `implementation 'com.twocoders.extensions:lifecycle-viewmodel:1.0.0'` into your build.gradle file.
+
+### Examples
+
+This library mostly wrap the common Application extensions:
+```kotlin
+class MyViewModel @ViewModelInject constructor(
+    application: Application
+) : AndroidViewModel(application) {
+
+    init {
+        ...
+
+        if (hasWifi) { /*true logic here*/ } else { /*false logic here*/ }
+
+        if (isNightModeEnabled) { /*true logic here*/ } else { /*false logic here*/ }
+
+        if (batteryManager.isCharging) { /*true logic here*/ } else { /*false logic here*/ }
+
+        if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) { /*true logic here*/ } else { /*false logic here*/ }
+
+        val internalPrivateDirPath = internalPrivateDir.absolutePath
+
+        ...
+    }
+}
+```
+
+and much more! Please visit this link for all available ViewModel extensions:  
+https://github.com/Two-Coders/android-kotlin-extensions/tree/master/extensions/lifecycle-viewmodel/src/main/java/com/twocoders/extensions/lifecycle/viewmodel
 
 ## Material Extensions
 This library contains some useful Android Material extensions.

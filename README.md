@@ -118,6 +118,8 @@ Fragment extensions are mostly only wrapped an Activity and Context extensions:
 ```kotlin
 class MyFragment : Fragment() {
 
+    private val viewModel by viewModels<MyFragmentViewModel>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -136,6 +138,8 @@ class MyFragment : Fragment() {
 Permissions (Multiple Permissions) Launcher:
 ```kotlin
 class MyFragment : Fragment() {
+
+    private val viewModel by viewModels<MyFragmentViewModel>()
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
 
@@ -413,7 +417,95 @@ This library contains some useful Android Material extensions.
 
 Use the library by adding `implementation 'com.twocoders.extensions:material:1.0.0'` into your build.gradle file.
 
+### Examples
+
+MaterialAlertDialog:
+```kotlin
+class MyFragment : Fragment() {
+
+    private val viewModel by viewModels<MyFragmentViewModel>()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        with(viewModel) {
+            showMaterialAlertDialogObservable.observe(viewLifecycleOwner) {
+                showMaterialAlertDialog(it.dialogComponent, buttonClickListener = alertDialogButtonListener)
+            }
+        }
+    }
+}
+```
+
+BottomSheetDialogFragment Behavior:
+```kotlin
+class MyBottomSheetDialogFragment : BottomSheetDialogFragment() {
+
+    private val viewModel by viewModels<MyBottomSheetDialogFragmentViewModel>()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        with(viewModel) {
+            setBottomSheetBehaviorObservable.observe(viewLifecycleOwner) { behavior?.state = it }
+        }
+    }
+}
+```
+
 ## RecyclerView Extensions
 This library contains some useful Android RecyclerView extensions.
 
 Use the library by adding `implementation 'com.twocoders.extensions:recyclerview:1.0.0'` into your build.gradle file.
+
+### Examples
+
+ExtendedRecyclerView automatically removes the assigned Adapter in the onDetachedFromWindow:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+                name="myFragmentViewModel"
+                type="com.sample.app.vm.MyFragmentViewModel" />
+    </data>
+
+    <com.twocoders.extensions.recyclerview.ExtendedRecyclerView
+        android:id="@+id/myRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ...
+        app:adapter="@{myFragmentViewModel.adapter}"
+        ... />
+
+</layout>
+```
+
+SpanCount extension and BindingAdapter:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="myFragmentViewModel"
+                type="com.sample.app.vm.MyFragmentViewModel" />
+    </data>
+
+    <com.twocoders.extensions.recyclerview.ExtendedRecyclerView
+        android:id="@+id/myRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ...
+        app:spanCount="@{myFragmentViewModel.spanCount}"
+        tools:spanCount="3"
+        ... />
+
+</layout>
+```

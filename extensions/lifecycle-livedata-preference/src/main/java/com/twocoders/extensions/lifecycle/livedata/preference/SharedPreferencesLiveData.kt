@@ -2,9 +2,6 @@ package com.twocoders.extensions.lifecycle.livedata.preference
 
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Suppress("MemberVisibilityCanBePrivate")
 abstract class SharedPreferencesLiveData<T : Any>(
@@ -13,16 +10,15 @@ abstract class SharedPreferencesLiveData<T : Any>(
     protected val defValue: T
 ) : MutableLiveData<T>() {
 
-    abstract fun getValueFromPrefs(): T
-    abstract fun setValueToPrefs(newValue: T)
+    protected abstract fun getValueFromPrefs(): T
+    protected abstract fun setValueToPrefs(newValue: T)
 
-    private val preferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-        if (key == this.prefKey) {
-            CoroutineScope(Dispatchers.Main).launch {
-                value = getValueFromPrefs()
+    private val preferenceChangeListener =
+        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == this.prefKey) {
+                super.postValue(getValueFromPrefs())
             }
         }
-    }
 
     override fun getValue(): T = getValueFromPrefs()
 

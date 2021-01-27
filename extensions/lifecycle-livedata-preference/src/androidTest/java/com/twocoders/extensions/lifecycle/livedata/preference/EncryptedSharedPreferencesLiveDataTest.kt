@@ -1,9 +1,8 @@
 package com.twocoders.extensions.lifecycle.livedata.preference
 
-import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
+import androidx.security.crypto.MasterKey
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.jraska.livedata.test
@@ -23,12 +22,16 @@ class EncryptedSharedPreferencesLiveDataTest {
     @Before
     fun setup() {
 
-        val masterKeyAlias: String = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+        val context = InstrumentationRegistry.getInstrumentation().context
+
+        val masterKey = MasterKey.Builder(context, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
 
         sharedPreferences = EncryptedSharedPreferences.create(
+            context,
             "secret_shared_prefs",
-            masterKeyAlias,
-            InstrumentationRegistry.getInstrumentation().context,
+            masterKey,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )

@@ -1,5 +1,7 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
 
 ext.bintrayPublishVersion = libExtensionsCommonVersion
 apply from: '../../bintray-publish-config.gradle'
@@ -13,12 +15,6 @@ android {
         versionName libExtensionsCommonVersion
 
         consumerProguardFiles 'consumer-rules.pro'
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
     }
 }
 

@@ -1,0 +1,29 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+ext.bintrayPublishVersion = libExtensionsLifecycleRuntimeVersion
+apply from: '../../bintray-publish-config.gradle'
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargerSdkVersion
+        versionName libExtensionsLifecycleRuntimeVersion
+
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    implementation "androidx.annotation:annotation:$annotationVersion"
+    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+}

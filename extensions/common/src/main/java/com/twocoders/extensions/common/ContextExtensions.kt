@@ -27,102 +27,239 @@ import android.os.*
 import android.os.storage.StorageManager
 import android.provider.Settings
 import android.telephony.TelephonyManager
+import android.text.TextUtils
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.Surface
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
+import java.io.File
 
-inline val Context.audioManager: AudioManager?
+val Context.audioManager: AudioManager?
     get() = applicationContext.getSystemService(AUDIO_SERVICE) as? AudioManager
 
-inline val Context.locationManager: LocationManager?
+val Context.locationManager: LocationManager?
     get() = applicationContext.getSystemService(LOCATION_SERVICE) as? LocationManager
 
-inline val Context.clipboardManager: ClipboardManager?
+val Context.clipboardManager: ClipboardManager?
     get() = applicationContext.getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager
 
-inline val Context.inputMethodManager: InputMethodManager?
+val Context.inputMethodManager: InputMethodManager?
     get() = applicationContext.getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
 
-inline val Context.notificationManager: NotificationManager?
+val Context.notificationManager: NotificationManager?
     get() = applicationContext.getSystemService(NOTIFICATION_SERVICE) as? NotificationManager
 
-inline val Context.connectivityManager: ConnectivityManager?
+val Context.connectivityManager: ConnectivityManager?
     get() = applicationContext.getSystemService(CONNECTIVITY_SERVICE) as? ConnectivityManager
 
-inline val Context.networkStatsManager: NetworkStatsManager?
+val Context.networkStatsManager: NetworkStatsManager?
     @RequiresApi(api = Build.VERSION_CODES.M)
     get() = applicationContext.getSystemService(NETWORK_STATS_SERVICE) as? NetworkStatsManager
 
-inline val Context.wifiManager: WifiManager?
+val Context.wifiManager: WifiManager?
     get() = applicationContext.getSystemService(WIFI_SERVICE) as? WifiManager
 
-inline val Context.windowManager: WindowManager?
+val Context.windowManager: WindowManager?
     get() = applicationContext.getSystemService(WINDOW_SERVICE) as? WindowManager
 
-inline val Context.activityManager: ActivityManager?
+val Context.activityManager: ActivityManager?
     get() = applicationContext.getSystemService(ACTIVITY_SERVICE) as? ActivityManager
 
-inline val Context.camera2Manager: CameraManager?
+val Context.camera2Manager: CameraManager?
     get() = applicationContext.getSystemService(CAMERA_SERVICE) as? CameraManager
 
-inline val Context.sensorManager: SensorManager?
+val Context.sensorManager: SensorManager?
     get() = applicationContext.getSystemService(SENSOR_SERVICE) as? SensorManager
 
-inline val Context.powerManager: PowerManager?
+val Context.powerManager: PowerManager?
     get() = applicationContext.getSystemService(POWER_SERVICE) as? PowerManager
 
-inline val Context.alarmManager: AlarmManager?
+val Context.alarmManager: AlarmManager?
     get() = applicationContext.getSystemService(ALARM_SERVICE) as? AlarmManager
 
-inline val Context.keyguardManager: KeyguardManager?
+val Context.keyguardManager: KeyguardManager?
     get() = applicationContext.getSystemService(KEYGUARD_SERVICE) as? KeyguardManager
 
-inline val Context.searchManager: SearchManager?
+val Context.searchManager: SearchManager?
     get() = applicationContext.getSystemService(SEARCH_SERVICE) as? SearchManager
 
-inline val Context.storageManager: StorageManager?
+val Context.storageManager: StorageManager?
     get() = applicationContext.getSystemService(STORAGE_SERVICE) as? StorageManager
 
-inline val Context.vibratorManager: Vibrator?
+val Context.vibratorManager: Vibrator?
     get() = applicationContext.getSystemService(VIBRATOR_SERVICE) as? Vibrator
 
-inline val Context.telephonyManager: TelephonyManager?
+val Context.telephonyManager: TelephonyManager?
     get() = applicationContext.getSystemService(TELEPHONY_SERVICE) as? TelephonyManager
 
-inline val Context.uiModeManager: UiModeManager?
+val Context.uiModeManager: UiModeManager?
     get() = applicationContext.getSystemService(UI_MODE_SERVICE) as? UiModeManager
 
-inline val Context.downloadManager: DownloadManager?
+val Context.downloadManager: DownloadManager?
     get() = applicationContext.getSystemService(DOWNLOAD_SERVICE) as? DownloadManager
 
-inline val Context.batteryManager: BatteryManager?
+val Context.batteryManager: BatteryManager?
     get() = applicationContext.getSystemService(BATTERY_SERVICE) as? BatteryManager
 
-inline val Context.hardwarePropertiesManager: HardwarePropertiesManager?
+val Context.hardwarePropertiesManager: HardwarePropertiesManager?
     @RequiresApi(api = Build.VERSION_CODES.N)
     get() = applicationContext.getSystemService(HARDWARE_PROPERTIES_SERVICE) as? HardwarePropertiesManager
 
-fun Context.isNetworkAvailable(): Boolean = connectivityManager?.let {
-    if (isAtLeastMarshmallow()) {
-        it.getNetworkCapabilities(it.activeNetwork)?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+val Context.hasCamera: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
+
+val Context.hasCameraFlash: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
+
+val Context.hasBluetooth: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH)
+
+val Context.hasGps: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)
+
+val Context.hasMicrophone: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_MICROPHONE)
+
+val Context.hasNfc: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_NFC)
+
+val Context.hasAccelerometer: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_ACCELEROMETER)
+
+val Context.hasGyroscope: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_GYROSCOPE)
+
+val Context.hasStepCounter: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)
+
+val Context.hasStepDetector: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_DETECTOR)
+
+val Context.hasCompass: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_COMPASS)
+
+val Context.hasBarometer: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_BAROMETER)
+
+val Context.hasHeartRate: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_HEART_RATE)
+
+val Context.hasLightSensor: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_LIGHT)
+
+val Context.hasProximitySensor: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_PROXIMITY)
+
+val Context.hasFingerprint: Boolean
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)
+
+val Context.hasTouchScreen: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN)
+
+val Context.hasUsbHost: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_USB_HOST)
+
+val Context.hasWifi: Boolean
+    get() = applicationContext.packageManager.hasSystemFeature(PackageManager.FEATURE_WIFI)
+
+val Context.appName: String
+    get() = with(applicationContext) {
+        if (applicationInfo.labelRes != NO_ID) {
+            getString(applicationInfo.labelRes)
+        } else {
+            applicationInfo.nonLocalizedLabel.toString()
+        }
+    }
+
+val Context.layoutInflater: LayoutInflater
+    get() = LayoutInflater.from(this)
+
+val Context.displayRotation: Int
+    get() = (if (isAtLeastR) {
+        display
     } else {
         @Suppress("DEPRECATION")
-        it.activeNetworkInfo?.isConnected
+        windowManager?.defaultDisplay
+    })?.rotation ?: Surface.ROTATION_0
+
+val Context.isRtl: Boolean
+    get() = applicationContext.resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
+
+val Context.isNightModeEnabled: Boolean
+    get() = when (applicationContext.resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)) {
+        Configuration.UI_MODE_NIGHT_YES -> true
+        Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> false
+        else -> false
     }
-} ?: false
 
-fun Context.isNetworkUnavailable() = !isNetworkAvailable()
+val Context.isNetworkAvailable: Boolean
+    get() = connectivityManager?.let {
+        if (isAtLeastMarshmallow) {
+            it.getNetworkCapabilities(it.activeNetwork)
+                ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        } else {
+            @Suppress("DEPRECATION")
+            it.activeNetworkInfo?.isConnected
+        }
+    } ?: false
 
-fun Context.scanForActivity(): Activity? = when (this) {
-    is Activity -> this
-    is ContextWrapper -> baseContext.scanForActivity()
-    else -> null
+val Context.isNetworkUnavailable: Boolean
+    get() = !isNetworkAvailable
+
+fun Context.checkPermission(permission: String) =
+    ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+
+fun Context.checkPermissions(permissions: Array<String>): Map<String, Boolean> =
+    permissions.associateBy({ it }, { checkPermission(it) })
+
+fun Context.hasPermissionInManifest(permissionName: String) = try {
+    applicationContext
+        .packageManager
+        .getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
+        .requestedPermissions?.contains(permissionName) ?: false
+} catch (e: PackageManager.NameNotFoundException) {
+    false
 }
+
+val Context.metaData: Bundle?
+    get() = try {
+    applicationContext
+        .packageManager
+        .getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+        .metaData
+} catch (e: PackageManager.NameNotFoundException) {
+    null
+}
+
+fun Context.getMetaDataStringValue(@StringRes id: Int) = metaData?.getString(getString(id))
+
+fun Context.getMetaDataFloatValue(@StringRes id: Int) = metaData?.getFloat(getString(id))
+
+fun Context.getMetaDataBooleanValue(@StringRes id: Int) = metaData?.getBoolean(getString(id))
+
+val Context.internalPrivateDir: File
+    get() = filesDir
+
+val Context.internalPrivateCacheDir: File
+    get() = cacheDir
+
+val Context.externalPrivateDir: File?
+    get() = getExternalFilesDir(null)
+
+val Context.externalPrivateCacheDir: File?
+    get() = externalCacheDir
+
+val Context.externalPrivateDirs: Array<out File?>
+    get() = getExternalFilesDirs(null)
+
+val Context.externalPrivateCacheDirs: Array<out File?>
+    get() = externalCacheDirs
 
 fun Context.getAnimationDrawable(@DrawableRes drawableResId: Int): AnimationDrawable? = try {
     getDrawable(drawableResId = drawableResId) as? AnimationDrawable
@@ -154,10 +291,10 @@ fun Context.getDrawable(@DrawableRes drawableResId: Int, theme: Resources.Theme 
 
 @ColorInt
 fun Context.getColorInt(@ColorRes colorResId: Int, theme: Resources.Theme = getTheme()): Int =
-    if (isAtLeastMarshmallow()) resources.getColor(colorResId, theme) else ContextCompat.getColor(this, colorResId)
+    if (isAtLeastMarshmallow) resources.getColor(colorResId, theme) else ContextCompat.getColor(this, colorResId)
 
 fun Context.getColorStateList(@ColorRes colorResId: Int, theme: Resources.Theme = getTheme()): ColorStateList? =
-    if (isAtLeastMarshmallow()) resources.getColorStateList(colorResId, theme) else ContextCompat.getColorStateList(this, colorResId)
+    if (isAtLeastMarshmallow) resources.getColorStateList(colorResId, theme) else ContextCompat.getColorStateList(this, colorResId)
 
 @ColorInt
 fun Context.getColorFromAttr(
@@ -183,91 +320,80 @@ fun Context.getStringFromAttr(
     }
 }
 
-fun Context.startActivity(intentAction: String = Intent.ACTION_VIEW, uri: Uri) {
-    startActivity(Intent(intentAction, uri))
+fun Context.scanForActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.scanForActivity()
+    else -> null
+}
+
+fun Context.startActivity(activity: Class<out Activity>) = startActivity(Intent(this, activity))
+
+fun Context.startActivity(intentAction: String = Intent.ACTION_VIEW, uri: Uri) = startActivity(Intent(intentAction, uri))
+
+fun Context.startDialActivity(uri: Uri) = startActivity(Intent.ACTION_DIAL, uri)
+
+fun Context.startApplicationSystemSettingsActivity() {
+    startActivity(
+        Intent(
+            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            Uri.parse("package:$packageName")
+        ).apply {
+            addCategory(Intent.CATEGORY_DEFAULT)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        })
+}
+
+fun Context.startLocationSettingsActivity() {
+    startActivity(
+        Intent(
+            Settings.ACTION_LOCATION_SOURCE_SETTINGS
+        ).apply {
+            addCategory(Intent.CATEGORY_DEFAULT)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        })
+}
+
+fun Context.startYouTubeActivity(youTubeVideoId: String) {
+    try {
+        startActivity(uri = Uri.parse("vnd.youtube:$youTubeVideoId"))
+    } catch (ex: ActivityNotFoundException) {
+        startWebBrowserActivity("https://www.youtube.com/watch?v=$youTubeVideoId")
+    }
+}
+
+fun Context.startWebBrowserActivity(url: String): Boolean {
+    if (TextUtils.isEmpty(url)) {
+        return false
+    }
+
+    var parsedUrl = url
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        parsedUrl = "http://$url"
+    }
+
+    return try {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(parsedUrl)))
+        true
+    } catch (e: ActivityNotFoundException) {
+        false
+    }
 }
 
 fun Context.startGooglePlayActivity(appPackageName: String = packageName, flags: Int? = null) {
     try {
         startActivity(
-            Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")).apply {
-                flags?.let { addFlags(it) }
-            })
-    } catch (e: ActivityNotFoundException) {
-        startActivity(
             Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
-            ).apply {
-                flags?.let { addFlags(it) }
-            })
+                Uri.parse("market://details?id=$appPackageName")
+            ).apply { flags?.let { addFlags(it) } })
+    } catch (e: ActivityNotFoundException) {
+        startWebBrowserActivity("https://play.google.com/store/apps/details?id=$appPackageName")
     }
 }
-
-fun Context.startDialActivity(uri: Uri) {
-    startActivity(Intent.ACTION_DIAL, uri)
-}
-
-fun Context.startApplicationDetailsSettingsActivity() {
-    startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-        data = Uri.fromParts("package", packageName, null)
-        addCategory(Intent.CATEGORY_DEFAULT)
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    })
-}
-
-fun Context.startLocationSettingsActivity() {
-    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
-        addCategory(Intent.CATEGORY_DEFAULT)
-        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    })
-}
-
-fun Context.isRtl(): Boolean {
-    return this.resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
-}
-
-fun Context.isNightModeEnabled() = when (resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)) {
-    Configuration.UI_MODE_NIGHT_YES -> true
-    Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> false
-    else -> false
-}
-
-val Context.displayRotation: Int
-    get() = (if (isAtLeastR()) {
-        display
-    } else {
-        @Suppress("DEPRECATION")
-        windowManager?.defaultDisplay
-    })?.rotation ?: Surface.ROTATION_0
-
-val Context.layoutInflater: LayoutInflater
-    get() = LayoutInflater.from(this)
-
-fun Context.checkPermission(permission: String) = ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
-
-fun Context.checkPermissions(permissions: Array<String>): Map<String, Boolean> = permissions.associateBy({ it }, { checkPermission(it) })
-
-fun Context.hasPermissionInManifest(permissionName: String) = try {
-    packageManager
-        .getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
-        .requestedPermissions?.contains(permissionName) ?: false
-} catch (e: PackageManager.NameNotFoundException) {
-    false
-}
-
-fun Context.internalPrivateDir() = filesDir
-fun Context.internalPrivateCacheDir() = cacheDir
-fun Context.externalPrivateDir(subDir: String? = null) = getExternalFilesDir(subDir)
-fun Context.externalPrivateCacheDir() = externalCacheDir
-fun Context.externalPrivateDirs(subDir: String? = null) = getExternalFilesDirs(subDir)
-fun Context.externalPrivateCacheDirs() = externalCacheDirs
 
 fun Context.showKeyboard(view: View) = inputMethodManager?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
 fun Context.toggleKeyboard() = inputMethodManager?.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
 fun Context.hideKeyboard(view: View) = inputMethodManager?.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
 
-fun Context.applicationName(): String {
-    val stringId: Int = applicationInfo.labelRes
-    return if (stringId == 0) applicationInfo.nonLocalizedLabel.toString() else getString(stringId)
-}
+fun Context.showShortToast(@StringRes text: Int) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+fun Context.showLongToast(@StringRes text: Int) = Toast.makeText(this, text, Toast.LENGTH_LONG).show()

@@ -1,0 +1,30 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+ext.bintrayPublishVersion = libExtensionsNavigationVersion
+apply from: '../../bintray-publish-config.gradle'
+
+android {
+    compileSdkVersion androidCompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargerSdkVersion
+        versionName libExtensionsNavigationVersion
+
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api project(':extensions:activity')
+    api project(':extensions:fragment')
+    api "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    implementation "androidx.annotation:annotation:$annotationVersion"
+}

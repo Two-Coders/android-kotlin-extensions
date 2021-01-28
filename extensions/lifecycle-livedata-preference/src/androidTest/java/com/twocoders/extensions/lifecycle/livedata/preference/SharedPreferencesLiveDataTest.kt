@@ -59,4 +59,16 @@ class SharedPreferencesLiveDataTest {
             assertEquals(storedValue, 89)
         }
     }
+
+    @Test
+    fun testPostValueToSharedPreferences() {
+        val key = "testPostKey"
+
+        val liveData = sharedPreferences.liveData(key, 0)
+        liveData.postValue(64)
+
+        val testObserver = runBlocking(Dispatchers.Main) { liveData.test() }
+
+        testObserver.awaitNextValue(200L, TimeUnit.MILLISECONDS).assertValue(64)
+    }
 }

@@ -8,7 +8,7 @@ import com.twocoders.extensions.common.logd
 
 @BindingAdapter(value = ["spanCount"])
 fun RecyclerView.setSpanCount(spanCount: Int) {
-    with(layoutManager) {
+    layoutManager.apply {
         when (this) {
             is StaggeredGridLayoutManager -> this.spanCount = spanCount
             is GridLayoutManager -> this.spanCount = spanCount

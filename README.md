@@ -167,7 +167,7 @@ https://github.com/Two-Coders/android-kotlin-extensions/tree/master/extensions/f
 ## Navigation Extensions
 This library contains some useful Android Navigation extensions.
 
-Use the library by adding `implementation 'com.twocoders.extensions:navigation:1.0.0'` into your build.gradle file.
+Use the library by adding `implementation 'com.twocoders.extensions:navigation:1.0.1'` into your build.gradle file.
 
 ### Examples
 
@@ -211,7 +211,7 @@ class MyFragmentViewModel @ViewModelInject constructor(
 ## Navigation Material Extensions
 This library contains some useful Android Navigation Material extensions.
 
-Use the library by adding `implementation 'com.twocoders.extensions:navigation-material:1.0.0'` into your build.gradle file.
+Use the library by adding `implementation 'com.twocoders.extensions:navigation-material:1.0.1'` into your build.gradle file.
 
 ### Examples
 

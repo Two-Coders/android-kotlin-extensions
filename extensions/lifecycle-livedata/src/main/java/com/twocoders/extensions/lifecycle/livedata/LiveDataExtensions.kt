@@ -18,6 +18,10 @@ fun <T : Any?> LiveEvent<T>.call() {
     this.value = null
 }
 
+fun <T : Any?> LiveEvent<T>.postCall() {
+    this.postValue(null)
+}
+
 fun LiveData<String>.isEmpty(): Boolean = value?.isEmpty() ?: true
 
 fun LiveData<String>.isNotEmpty() = !isEmpty()

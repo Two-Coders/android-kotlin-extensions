@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
 }
 
-ext.bintrayPublishVersion = libExtensionsNavigationMaterialVersion
+ext.bintrayPublishVersion = libExtensionsLifecycleViewModelSavedStateVersion
 apply from: '../../bintray-publish-config.gradle'
 
 android {
@@ -12,7 +12,7 @@ android {
     defaultConfig {
         minSdkVersion androidMinSdkVersion
         targetSdkVersion androidTargerSdkVersion
-        versionName libExtensionsNavigationMaterialVersion
+        versionName libExtensionsLifecycleViewModelSavedStateVersion
 
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -21,7 +21,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api project(':extensions:navigation')
-    api project(':extensions:material')
+    api project(':extensions:common')
+    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion"
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    implementation "androidx.annotation:annotation:$annotationVersion"
 }

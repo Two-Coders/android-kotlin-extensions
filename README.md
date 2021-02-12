@@ -188,7 +188,7 @@ class MyActivity : AppCompatActivity() {
 ## Lifecycle Runtime Extensions
 This library contains some useful Android Lifecycle Runtime extensions.
 
-Use the library by adding `implementation "com.twocoders.extensions:lifecycle-runtime:1.0.0"` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:lifecycle-runtime:1.0.1"` into your build.gradle file.
 
 ### Examples
 
@@ -298,7 +298,7 @@ https://github.com/Two-Coders/android-kotlin-extensions/tree/master/extensions/l
 ## Lifecycle LiveData Preference Extensions
 This library contains some useful Android Lifecycle LiveData Preference extensions.
 
-Use the library by adding `implementation "com.twocoders.extensions:lifecycle-livedata-preference:1.0.0"` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:lifecycle-livedata-preference:1.0.1"` into your build.gradle file.
 
 ### Examples
 
@@ -387,7 +387,7 @@ class MyViewModel @Inject constructor(
 ## Material Extensions
 This library contains some useful Android Material extensions.
 
-Use the library by adding `implementation "com.twocoders.extensions:material:1.0.0"` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:material:1.0.1"` into your build.gradle file.
 
 ### Examples
 

@@ -4,7 +4,7 @@ This project contains a set of useful Android Kotlin Extensions separated accord
 ## Common Extensions
 This library contains some useful common Android extensions without additional dependencies.
 
-Use the library by adding `implementation "com.twocoders.extensions:common:1.1.0"` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:common:1.1.1"` into your build.gradle file.
 
 ### Examples
 
@@ -72,7 +72,7 @@ https://github.com/Two-Coders/android-kotlin-extensions/tree/master/extensions/c
 ## Activity Extensions
 This library contains some useful Android Activity extensions.
 
-Use the library by adding `implementation "com.twocoders.extensions:activity:1.0.1"` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:activity:1.0.0"` into your build.gradle file.
 
 ### Examples
 

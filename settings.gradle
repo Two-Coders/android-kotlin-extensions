@@ -5,7 +5,7 @@ include ':extensions:activity',
         ':extensions:lifecycle-livedata-preference',
         ':extensions:lifecycle-runtime',
         ':extensions:lifecycle-viewmodel',
+        ':extensions:lifecycle-viewmodel-savedstate',
         ':extensions:material',
         ':extensions:navigation',
-        ':extensions:navigation-material',
         ':extensions:recyclerview'

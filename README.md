@@ -4,7 +4,7 @@ This project contains a set of useful Android Kotlin Extensions separated accord
 ## Common Extensions
 This library contains some useful common Android extensions without additional dependencies.
 
-Use the library by adding `implementation 'com.twocoders.extensions:common:1.1.0'` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:common:1.1.1"` into your build.gradle file.
 
 ### Examples
 
@@ -72,7 +72,7 @@ https://github.com/Two-Coders/android-kotlin-extensions/tree/master/extensions/c
 ## Activity Extensions
 This library contains some useful Android Activity extensions.
 
-Use the library by adding `implementation 'com.twocoders.extensions:activity:1.0.0'` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:activity:1.0.0"` into your build.gradle file.
 
 ### Examples
 
@@ -110,7 +110,7 @@ https://github.com/Two-Coders/android-kotlin-extensions/tree/master/extensions/a
 ## Fragment Extensions
 This library contains some useful Android Fragment extensions.
 
-Use the library by adding `implementation 'com.twocoders.extensions:fragment:1.0.0'` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:fragment:1.0.0"` into your build.gradle file.
 
 ### Examples
 
@@ -167,7 +167,7 @@ https://github.com/Two-Coders/android-kotlin-extensions/tree/master/extensions/f
 ## Navigation Extensions
 This library contains some useful Android Navigation extensions.
 
-Use the library by adding `implementation 'com.twocoders.extensions:navigation:1.0.1'` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:navigation:1.0.2"` into your build.gradle file.
 
 ### Examples
 
@@ -185,63 +185,10 @@ class MyActivity : AppCompatActivity() {
 }
 ```
 
-NavArgs with Hilt:
-```kotlin
-// Fragment (Fragment, DialogFragment and BottomSheetDialogFragment are supported now)
-@AndroidEntryPoint
-class MyFragment : ArgsFragment() {
-
-    private val viewModel by viewModels<MyFragmentViewModel>()
-
-    ...
-}
-
-// ViewModel (AndroidViewModel is supported now)
-class MyFragmentViewModel @ViewModelInject constructor(
-    application: Application,
-    @Assisted savedStateHandle: SavedStateHandle
-) : ArgsAndroidViewModel(application, savedStateHandle) {
-
-    private val args: MyFragmentArgs by navArgs()
-
-    ...
-}
-```
-
-## Navigation Material Extensions
-This library contains some useful Android Navigation Material extensions.
-
-Use the library by adding `implementation 'com.twocoders.extensions:navigation-material:1.0.1'` into your build.gradle file.
-
-### Examples
-
-This library actually only extends the **extensions:navigation** with the ArgsBottomSheetDialogFragment:
-```kotlin
-// BottomSheetDialogFragment
-@AndroidEntryPoint
-class MyBottomSheetDialogFragment : ArgsBottomSheetDialogFragment() {
-
-    private val viewModel by viewModels<MyBottomSheetDialogFragmentViewModel>()
-
-    ...
-}
-
-// ViewModel
-class MyBottomSheetDialogFragmentViewModel @ViewModelInject constructor(
-    application: Application,
-    @Assisted savedStateHandle: SavedStateHandle
-) : ArgsAndroidViewModel(application, savedStateHandle) {
-
-    private val args: MyMyBottomSheetDialogFragmentArgs by navArgs()
-
-    ...
-}
-```
-
 ## Lifecycle Runtime Extensions
 This library contains some useful Android Lifecycle Runtime extensions.
 
-Use the library by adding `implementation 'com.twocoders.extensions:lifecycle-runtime:1.0.0'` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:lifecycle-runtime:1.0.1"` into your build.gradle file.
 
 ### Examples
 
@@ -257,13 +204,14 @@ val isFinishing: Boolean = lifecycleOwner.isFinishing()
 ## Lifecycle LiveData Extensions
 This library contains some useful Android Lifecycle LiveData extensions.
 
-Use the library by adding `implementation 'com.twocoders.extensions:lifecycle-livedata:1.1.0'` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:lifecycle-livedata:1.1.1"` into your build.gradle file.
 
 ### Examples
 
 This library adds some useful extensions to LiveData and Hadilq LiveEvent:
 ```kotlin
-class MyFragmentViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MyFragmentViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -288,7 +236,8 @@ class MyFragmentViewModel @ViewModelInject constructor(
 
 MutableLiveData access restriction:
 ```kotlin
-class MyFragmentViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MyFragmentViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -308,7 +257,8 @@ class MyFragmentViewModel @ViewModelInject constructor(
 
 Transformations:
 ```kotlin
-class MyFragmentViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MyFragmentViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -348,12 +298,13 @@ https://github.com/Two-Coders/android-kotlin-extensions/tree/master/extensions/l
 ## Lifecycle LiveData Preference Extensions
 This library contains some useful Android Lifecycle LiveData Preference extensions.
 
-Use the library by adding `implementation 'com.twocoders.extensions:lifecycle-livedata-preference:1.0.0'` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:lifecycle-livedata-preference:1.0.1"` into your build.gradle file.
 
 ### Examples
 
 ```kotlin
-class MyViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MyViewModel @Inject constructor(
     application: Application,
     preferences: SharedPreferences
 ) : AndroidViewModel(application) {
@@ -381,13 +332,14 @@ class MyViewModel @ViewModelInject constructor(
 ## Lifecycle ViewModel Extensions
 This library contains some useful Android Lifecycle ViewModel extensions.
 
-Use the library by adding `implementation 'com.twocoders.extensions:lifecycle-viewmodel:1.0.0'` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:lifecycle-viewmodel:1.0.1"` into your build.gradle file.
 
 ### Examples
 
 This library mostly wrap the common Application extensions:
 ```kotlin
-class MyViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MyViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -412,10 +364,30 @@ class MyViewModel @ViewModelInject constructor(
 and much more! Please visit this link for all available ViewModel extensions:  
 https://github.com/Two-Coders/android-kotlin-extensions/tree/master/extensions/lifecycle-viewmodel/src/main/java/com/twocoders/extensions/lifecycle/viewmodel
 
+## Lifecycle ViewModel SavedState Extensions
+This library contains some useful Android Lifecycle ViewModel SavedState extensions.
+
+Use the library by adding `implementation "com.twocoders.extensions:lifecycle-viewmodel-savedstate:1.0.0"` into your build.gradle file.
+
+### Examples
+
+```kotlin
+@HiltViewModel
+class MyViewModel @Inject constructor(
+    application: Application,
+    savedStateHandle: SavedStateHandle
+) : AndroidViewModel(application) {
+
+    private val mySafeArg: MySafeArg = savedStateHandle.request("mySafeArg")
+
+    ...
+}
+```
+
 ## Material Extensions
 This library contains some useful Android Material extensions.
 
-Use the library by adding `implementation 'com.twocoders.extensions:material:1.0.0'` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:material:1.0.1"` into your build.gradle file.
 
 ### Examples
 
@@ -456,7 +428,7 @@ class MyBottomSheetDialogFragment : BottomSheetDialogFragment() {
 ## RecyclerView Extensions
 This library contains some useful Android RecyclerView extensions.
 
-Use the library by adding `implementation 'com.twocoders.extensions:recyclerview:1.0.0'` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:recyclerview:1.0.0"` into your build.gradle file.
 
 ### Examples
 

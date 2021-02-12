@@ -19,6 +19,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import com.twocoders.extensions.common.*
 import java.io.File
+import java.util.*
 
 val AndroidViewModel.app
     get() = getApplication<Application>()
@@ -154,6 +155,12 @@ val AndroidViewModel.hasWifi: Boolean
 
 val AndroidViewModel.appName
     get() = app.appName
+
+val AndroidViewModel.locale: Locale?
+    get() = app.locale
+
+val AndroidViewModel.localeLanguage: String
+    get() = app.localeLanguage
 
 val AndroidViewModel.isRtl: Boolean
     get() = app.isRtl

@@ -9,5 +9,6 @@ const val SPACE = " "
 const val VERTICAL_BAR = "|"
 const val SLASH = "/"
 const val COMMA = ","
+const val DOT = "."
 
 fun String.toLowerCase() = toLowerCase(Locale.ROOT)

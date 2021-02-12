@@ -38,6 +38,7 @@ import android.widget.Toast
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import java.io.File
+import java.util.*
 
 val Context.audioManager: AudioManager?
     get() = applicationContext.getSystemService(AUDIO_SERVICE) as? AudioManager
@@ -176,6 +177,15 @@ val Context.appName: String
             applicationInfo.nonLocalizedLabel.toString()
         }
     }
+
+val Context.locale: Locale?
+    get() = with(applicationContext) {
+        @Suppress("DEPRECATION")
+        if (isAtLeastNougat) resources.configuration.locales[0] else resources.configuration.locale
+    }
+
+val Context.localeLanguage: String
+    get() = locale?.language ?: EMPTY_STRING
 
 val Context.layoutInflater: LayoutInflater
     get() = LayoutInflater.from(this)

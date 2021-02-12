@@ -11,12 +11,12 @@ buildscript {
         androidTargerSdkVersion = androidCompileSdkVersion
 
         libExtensionsActivityVersion = '1.0.0'
-        libExtensionsCommonVersion = '1.1.0'
+        libExtensionsCommonVersion = '1.1.1'
         libExtensionsFragmentVersion = '1.0.0'
-        libExtensionsLifecycleLiveDataVersion = '1.1.0'
+        libExtensionsLifecycleLiveDataVersion = '1.1.1'
         libExtensionsLifecycleLiveDataPreferenceVersion = '1.0.0'
         libExtensionsLifecycleRuntimeVersion = '1.0.0'
-        libExtensionsLifecycleViewModelVersion = '1.0.0'
+        libExtensionsLifecycleViewModelVersion = '1.0.1'
         libExtensionsLifecycleViewModelSavedStateVersion = '1.0.0'
         libExtensionsMaterialVersion = '1.0.0'
         libExtensionsNavigationVersion = '1.0.2'

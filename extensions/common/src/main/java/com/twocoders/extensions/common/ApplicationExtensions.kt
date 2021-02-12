@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import java.io.File
+import java.util.*
 
 val Application.audioManager: AudioManager?
     get() = applicationContext.audioManager
@@ -149,6 +150,12 @@ val Application.hasWifi: Boolean
 
 val Application.appName: String
     get() = applicationContext.appName
+
+val Application.locale: Locale?
+    get() = applicationContext.locale
+
+val Application.localeLanguage: String
+    get() = applicationContext.localeLanguage
 
 val Application.isRtl: Boolean
     get() = applicationContext.isRtl

@@ -72,7 +72,7 @@ https://github.com/Two-Coders/android-kotlin-extensions/tree/master/extensions/c
 ## Activity Extensions
 This library contains some useful Android Activity extensions.
 
-Use the library by adding `implementation "com.twocoders.extensions:activity:1.0.0"` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:activity:1.0.1"` into your build.gradle file.
 
 ### Examples
 
@@ -204,7 +204,7 @@ val isFinishing: Boolean = lifecycleOwner.isFinishing()
 ## Lifecycle LiveData Extensions
 This library contains some useful Android Lifecycle LiveData extensions.
 
-Use the library by adding `implementation "com.twocoders.extensions:lifecycle-livedata:1.1.0"` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:lifecycle-livedata:1.1.1"` into your build.gradle file.
 
 ### Examples
 
@@ -332,7 +332,7 @@ class MyViewModel @Inject constructor(
 ## Lifecycle ViewModel Extensions
 This library contains some useful Android Lifecycle ViewModel extensions.
 
-Use the library by adding `implementation "com.twocoders.extensions:lifecycle-viewmodel:1.0.0"` into your build.gradle file.
+Use the library by adding `implementation "com.twocoders.extensions:lifecycle-viewmodel:1.0.1"` into your build.gradle file.
 
 ### Examples
 
